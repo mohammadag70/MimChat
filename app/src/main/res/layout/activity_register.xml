@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".Activites.Auth.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/vazir"
+            android:gravity="center"
+            android:text="با میم چت با دوستات \nبه راحتی چت کن!"
+            android:textColor="@color/whiteTrans"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/binazir"
+            android:gravity="center"
+            android:text="ثبت نام"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:cursorVisible="true"
+            android:drawableLeft="@drawable/ic_name"
+            android:fontFamily="@font/vazir"
+            android:gravity="right|center_vertical"
+            android:hint="نام شما"
+            android:inputType="text|textNoSuggestions"
+            android:paddingLeft="20dp"
+            android:paddingRight="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/hint"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:cursorVisible="true"
+            android:drawableLeft="@drawable/ic_email"
+            android:fontFamily="@font/vazir"
+            android:gravity="right|center_vertical"
+            android:hint="ایمیل شما"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            android:paddingRight="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/hint"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:cursorVisible="true"
+            android:drawableLeft="@drawable/ic_password"
+            android:fontFamily="@font/vazir"
+            android:gravity="right|center_vertical"
+            android:hint="گذرواژه شما"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingRight="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/hint"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/rounded_edittext"
+            android:cursorVisible="true"
+            android:drawableLeft="@drawable/ic_password"
+            android:fontFamily="@font/vazir"
+            android:gravity="right|center_vertical"
+            android:hint="تکرار گذرواژه شما"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingRight="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/hint"
+            android:textCursorDrawable="@null"
+            android:textSize="14sp" />
+
+        <carbon.widget.Button xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:background="#ffffff"
+            android:fontFamily="@font/vazir"
+            android:text="ثبت نام"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            app:carbon_cornerRadius="20dp"
+            app:carbon_elevation="8dp"
+            app:carbon_elevationShadowColor="@color/white"
+            app:carbon_rippleColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/goToLoginPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:fontFamily="@font/vazir"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="اگر قبلا ثبت نام کردی \nاینجا رو کلیک کن!"
+            android:textColor="@color/whiteTrans"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</ScrollView>

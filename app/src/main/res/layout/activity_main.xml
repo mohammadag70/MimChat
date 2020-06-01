@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".Activites.Main.MainActivity">
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/navBarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/navBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="9dp"
+            app:carbon_cornerRadius="10dp"
+            app:carbon_elevation="12dp"
+            app:carbon_elevationShadowColor="@color/elevation"
+            app:carbon_rippleColor="@color/elevation">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_toggle" />
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/navBottomContainer"
+        android:layout_below="@id/navBarContainer" />
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/navBottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            app:carbon_cornerRadius="15dp"
+            app:carbon_elevation="8dp"
+            app:carbon_elevationShadowColor="@color/elevation">
+
+            <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
+                android:id="@+id/bubbleNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginBottom="380dp"
+                android:background="@color/white"
+                android:elevation="4dp"
+                android:padding="3dp"
+                app:bnc_mode="spread">
+
+                <com.gauravk.bubblenavigation.BubbleToggleView
+                    android:id="@+id/single"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bt_active="true"
+                    app:bt_colorActive="@color/colorPrimary"
+                    app:bt_colorInactive="@color/colorPrimary"
+                    app:bt_icon="@drawable/ic_single_chat"
+                    app:bt_shape="@drawable/transition_background_drawable_home"
+                    app:bt_title="چت انفرادی    "
+                    app:bt_titlePadding="10dp"
+                    app:bt_titleSize="12sp" />
+
+                <com.gauravk.bubblenavigation.BubbleToggleView
+                    android:id="@+id/group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bt_active="true"
+                    app:bt_colorActive="@color/colorPrimary"
+                    app:bt_colorInactive="@color/colorPrimary"
+                    app:bt_icon="@drawable/ic_group_chat"
+                    app:bt_shape="@drawable/transition_background_drawable_home"
+                    app:bt_title="چت گروهی    "
+                    app:bt_titlePadding="10dp"
+                    app:bt_titleSize="12sp" />
+
+                <com.gauravk.bubblenavigation.BubbleToggleView
+                    android:id="@+id/contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bt_active="true"
+                    app:bt_colorActive="@color/colorPrimary"
+                    app:bt_colorInactive="@color/colorPrimary"
+                    app:bt_icon="@drawable/ic_contacts"
+                    app:bt_shape="@drawable/transition_background_drawable_home"
+                    app:bt_title="مخاطبین     "
+                    app:bt_titlePadding="10dp"
+                    app:bt_titleSize="12sp" />
+
+            </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+</RelativeLayout>

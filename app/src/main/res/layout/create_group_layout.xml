@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:background="@color/colorPrimary">
+
+    <EditText
+        android:id="@+id/gpName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/ic_group_chat_icon"
+        android:paddingLeft="20dp"
+        android:inputType=""
+        android:paddingRight="15dp"
+        android:background="@drawable/rounded_edittext"
+        android:fontFamily="@font/vazir"
+        android:gravity="right|center_vertical"
+        android:hint="نام گرووه"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:fontFamily="@font/vazir"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="لغو"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:fontFamily="@font/vazir"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="ثبت گروه"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

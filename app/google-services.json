@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "319395070877",
+    "firebase_url": "https://mimchat-74ff7.firebaseio.com",
+    "project_id": "mimchat-74ff7",
+    "storage_bucket": "mimchat-74ff7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319395070877:android:5e27827d3a24b9e4052574",
+        "android_client_info": {
+          "package_name": "mag.ir.mimchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319395070877-l75ub2dt7berbvn0gick3367b33o2v77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARBvLj73Aw2LItADJGcPUyd_ZcmnbN5L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319395070877-l75ub2dt7berbvn0gick3367b33o2v77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

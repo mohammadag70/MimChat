@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".Activites.Main.SettingsActivity">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/backContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="7dp"
+            app:carbon_cornerRadius="10dp"
+            app:carbon_elevation="12dp"
+            app:carbon_elevationShadowColor="@color/elevation"
+            app:carbon_rippleColor="@color/elevation">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_back" />
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp"
+        app:blurOverlayColor="#06FFFFFF">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blur_round_back">
+
+            <RelativeLayout
+                android:id="@+id/blurry"
+                android:layout_width="match_parent"
+                android:layout_height="500dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/profile" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profileImage"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:fontFamily="@font/vazir"
+                    android:textColor="@color/white"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/name"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
+                    android:fontFamily="@font/vazir"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/statusText"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/whiteTrans" />
+
+                <EditText
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@id/line"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:cursorVisible="true"
+                    android:drawableLeft="@drawable/ic_username"
+                    android:fontFamily="@font/vazir"
+                    android:gravity="right|center_vertical"
+                    android:hint="وضعیت"
+                    android:inputType="textEmailAddress"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="30dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+                <carbon.widget.Button xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/updateStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/status"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp"
+                    android:background="#ffffff"
+                    android:fontFamily="@font/vazir"
+                    android:text="به روز رسانی وضعیت"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    app:carbon_cornerRadius="20dp"
+                    app:carbon_elevation="8dp"
+                    app:carbon_elevationShadowColor="@color/white"
+                    app:carbon_rippleColor="@color/colorPrimary" />
+
+                <carbon.widget.Button xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/wallpaperButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/updateStatus"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="30dp"
+                    android:background="#ffffff"
+                    android:fontFamily="@font/vazir"
+                    android:text="آپلود عکس پس زمینه"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    app:carbon_cornerRadius="20dp"
+                    app:carbon_elevation="8dp"
+                    app:carbon_elevationShadowColor="@color/white"
+                    app:carbon_rippleColor="@color/colorPrimary" />
+
+                <carbon.widget.Button xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profileImageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/wallpaperButton"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="30dp"
+                    android:background="#ffffff"
+                    android:fontFamily="@font/vazir"
+                    android:text="آپلود عکس آواتار"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    app:carbon_cornerRadius="20dp"
+                    app:carbon_elevation="8dp"
+                    app:carbon_elevationShadowColor="@color/white"
+                    app:carbon_rippleColor="@color/colorPrimary" />
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </eightbitlab.com.blurview.BlurView>
+
+</RelativeLayout>

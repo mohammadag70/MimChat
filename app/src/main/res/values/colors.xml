@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ED6B6B</color>
+    <color name="colorPrimaryDark">#BF5656</color>
+    <color name="colorAccent">#fff</color>
+
+    <color name="background">#FBFBFB</color>
+    <color name="bottomBarBack">#EDEDED</color>
+    <color name="elevation">#F18B8B</color>
+
+    <color name="whiteTrans">#C4FFFFFF</color>
+    <color name="hint">#B5ED6B6B</color>
+
+</resources>
