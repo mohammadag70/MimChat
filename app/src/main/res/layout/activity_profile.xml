@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".Activites.Main.ProfileActivity">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:tint="@color/tint"
+        android:id="@+id/wallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/backContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="7dp"
+            app:carbon_cornerRadius="10dp"
+            app:carbon_elevation="12dp"
+            app:carbon_elevationShadowColor="@color/elevation"
+            app:carbon_rippleColor="@color/elevation">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_back" />
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/vazir"
+        android:textStyle="bold"
+        android:text="حساب کاربری"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_below="@id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/vazir"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/vazir"
+        android:textColor="@color/colorPrimary"
+        android:textSize="17sp" />
+
+    <carbon.widget.Button
+        android:id="@+id/sendMessageButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/vazir"
+        android:text="درخواست چت"
+        android:textColor="@color/white"
+        app:carbon_cornerRadius="20dp"
+        app:carbon_elevation="8dp"
+        app:carbon_elevationShadowColor="@color/colorPrimaryDark"
+        app:carbon_rippleColor="@color/white" />
+
+    <carbon.widget.Button
+        android:id="@+id/declineMessageButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendMessageButton"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/red"
+        android:fontFamily="@font/vazir"
+        android:text="عدم قبول درخواست"
+        android:textColor="@color/white"
+        app:carbon_cornerRadius="20dp"
+        app:carbon_elevation="8dp"
+        app:carbon_elevationShadowColor="@color/red"
+        app:carbon_rippleColor="@color/white" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/round" />
+
+</RelativeLayout>

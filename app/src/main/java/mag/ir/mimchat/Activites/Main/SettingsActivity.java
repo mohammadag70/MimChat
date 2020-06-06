@@ -2,16 +2,13 @@ package mag.ir.mimchat.Activites.Main;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,15 +34,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 import mag.ir.mimchat.R;
 import mag.ir.mimchat.Utilities.Utils;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.blurView)
-    BlurView blurView;
     @BindView(R.id.back)
     carbon.widget.LinearLayout back;
     @BindView(R.id.updateStatus)
@@ -65,7 +58,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.backgroundImageView)
     ImageView backgroundImageView;
 
-    private float radius = 10f;
     private String currentUserId;
     private FirebaseAuth auth;
     private DatabaseReference rootRef;
@@ -85,16 +77,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void init() {
-
-        View decorView = getWindow().getDecorView();
-        ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
-        Drawable windowBackground = decorView.getBackground();
-
-        blurView.setupWith(rootView)
-                .setFrameClearDrawable(windowBackground)
-                .setBlurAlgorithm(new RenderScriptBlur(this))
-                .setBlurRadius(radius)
-                .setHasFixedTransformationMatrix(true);
 
         Utils.hideKeyboard(SettingsActivity.this);
         back.setOnClickListener(this);
@@ -259,7 +241,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Uri downloadUri = uri;
-                                    Toast.makeText(SettingsActivity.this, "آواتار با موفقیت بارگذاری شد...", Toast.LENGTH_SHORT).show();
+                                    Utils.showSuccessMessage(SettingsActivity.this, "آواتار با موفقیت بارگذاری شد...");
                                     String generatedFilePath = downloadUri.toString();
 
                                     rootRef.child("Users").child(currentUserId).child("image").setValue(generatedFilePath).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -269,7 +251,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                                 dialog.dismiss();
                                             } else {
                                                 String message = task.getException().toString();
-                                                Toast.makeText(SettingsActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
+                                                Utils.showErrorMessage(SettingsActivity.this, "Error : " + message);
                                                 dialog.dismiss();
                                             }
                                         }
@@ -277,7 +259,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             String message = e.toString();
-                                            Toast.makeText(SettingsActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
+                                            Utils.showErrorMessage(SettingsActivity.this, "Error : " + message);
                                             dialog.dismiss();
                                         }
                                     });
@@ -297,7 +279,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Uri downloadUri = uri;
-                                    Toast.makeText(SettingsActivity.this, "پس زمینه با موفقیت بارگذاری شد...", Toast.LENGTH_SHORT).show();
+                                    Utils.showSuccessMessage(SettingsActivity.this, "پس زمینه با موفقیت بارگذاری شد...");
                                     String generatedFilePath = downloadUri.toString();
 
                                     rootRef.child("Users").child(currentUserId).child("background").setValue(generatedFilePath).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -308,7 +290,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                                             } else {
                                                 String message = task.getException().toString();
-                                                Toast.makeText(SettingsActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
+                                                Utils.showErrorMessage(SettingsActivity.this, "Error : " + message);
                                                 dialog.dismiss();
                                             }
                                         }
@@ -316,7 +298,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             String message = e.toString();
-                                            Toast.makeText(SettingsActivity.this, "Error : " + message, Toast.LENGTH_SHORT).show();
+                                            Utils.showErrorMessage(SettingsActivity.this, "Error : " + message);
                                             dialog.dismiss();
                                         }
                                     });
@@ -352,7 +334,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     dialog.dismiss();
-                    Utils.showToast(SettingsActivity.this, "وضعیتت در سرور ذخیره شد...");
+                    Utils.showSuccessMessage(SettingsActivity.this, "وضعیتت در سرور ذخیره شد...");
                     status.setText("");
                 } else {
                     dialog.dismiss();

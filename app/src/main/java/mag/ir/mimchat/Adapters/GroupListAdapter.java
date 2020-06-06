@@ -1,10 +1,10 @@
 package mag.ir.mimchat.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import mag.ir.mimchat.Activites.Chat.GroupChatActivity;
 import mag.ir.mimchat.Models.Group;
 import mag.ir.mimchat.R;
 import mag.ir.mimchat.Utilities.Utils;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyViewHolder> {
 
@@ -41,6 +44,16 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
         holder.time.setText(Utils.toPersianNumber(group.getTime()));
         holder.gpName.setText(group.getName());
         holder.sazande.setText("ساخته شده توسط: " + group.getUsername());
+
+        holder.rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GroupChatActivity.class);
+                intent.putExtra("gpName", group.getName());
+                context.startActivity(intent);
+                customType(context, "left-to-right");
+            }
+        });
     }
 
     @Override
@@ -51,7 +64,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView gpName, time, date, sazande;
-        RelativeLayout rel;
+        carbon.widget.LinearLayout rel;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

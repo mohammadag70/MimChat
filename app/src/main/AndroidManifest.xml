@@ -18,7 +18,13 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:replace="android:supportsRtl, android:icon">
-        <activity android:name=".Activites.Chat.GroupChatActivity"></activity>
+        <activity android:name=".Activites.Chat.SingleChatActivity"></activity>
+        <activity android:name=".Activites.Main.ProfileActivity" />
+        <activity android:name=".Activites.Main.FindFriendsActivity" />
+        <activity
+            android:name=".Activites.Chat.GroupChatActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activites.Main.SettingsActivity"
             android:screenOrientation="portrait"

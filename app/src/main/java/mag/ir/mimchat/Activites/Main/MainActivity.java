@@ -3,6 +3,7 @@ package mag.ir.mimchat.Activites.Main;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -51,10 +52,13 @@ import butterknife.ButterKnife;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import mag.ir.mimchat.Fragments.ContactsFragment;
 import mag.ir.mimchat.Fragments.GroupChatFragment;
+import mag.ir.mimchat.Fragments.RequestFragment;
 import mag.ir.mimchat.Fragments.SingleChatFragment;
 import mag.ir.mimchat.R;
 import mag.ir.mimchat.Utilities.SolarCalendar;
 import mag.ir.mimchat.Utilities.Utils;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -148,6 +152,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .addToBackStack(null)
                                 .commit();
                         break;
+                    case 3:
+                        f = getSupportFragmentManager().findFragmentById(R.id.container);
+                        if (f instanceof RequestFragment) {
+                            break;
+                        }
+                        fragment = new RequestFragment();
+                        fm.beginTransaction()
+                                .remove(currentFragment)
+                                .add(R.id.container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                        break;
                 }
 
             }
@@ -211,6 +227,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             powerMenu.dismiss();
 
             switch (position) {
+                case 0:
+                    Intent intent = new Intent(MainActivity.this, FindFriendsActivity.class);
+                    customType(MainActivity.this, "left-to-right");
+                    startActivity(intent);
+                    break;
                 case 1:
                     requestNewGroup();
                     break;

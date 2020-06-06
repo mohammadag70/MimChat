@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/navBottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:orientation="vertical"
+            app:carbon_cornerRadius="15dp"
+            app:carbon_elevation="8dp"
+            app:carbon_elevationShadowColor="@color/elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_toLeftOf="@id/userImage"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/vazir"
+                        android:gravity="right"
+                        android:paddingRight="12dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/userStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/gpName"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="12dp"
+                        android:fontFamily="@font/vazir"
+                        android:gravity="right"
+                        android:padding="2dp"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+
+                <carbon.widget.Button
+                    android:id="@+id/acceptButton"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/carbon_green_500"
+                    android:fontFamily="@font/vazir"
+                    android:text="قبول"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"
+                    app:carbon_cornerRadius="10dp"
+                    app:carbon_elevation="8dp"
+                    app:carbon_elevationShadowColor="@color/carbon_green_500"
+                    app:carbon_rippleColor="@color/white" />
+
+                <carbon.widget.Button
+                    android:id="@+id/declineButton"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toLeftOf="@id/acceptButton"
+                    android:background="@color/red"
+                    android:fontFamily="@font/vazir"
+                    android:text="رد"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"
+                    app:carbon_cornerRadius="10dp"
+                    app:carbon_elevation="8dp"
+                    app:carbon_elevationShadowColor="@color/red"
+                    app:carbon_rippleColor="@color/white" />
+
+            </RelativeLayout>
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+</RelativeLayout>

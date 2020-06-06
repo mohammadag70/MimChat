@@ -8,7 +8,7 @@
         android:topLeftRadius="20dp"
         android:topRightRadius="20dp" />
 
-    <solid android:color="@android:color/transparent" />
+    <solid android:color="#C8000000" />
     <!--<solid android:color="@android:color/background_light" />-->
 
 </shape>

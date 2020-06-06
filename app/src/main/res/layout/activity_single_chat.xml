@@ -7,53 +7,16 @@
     android:background="#F8F8F8"
     tools:context=".Activites.Chat.GroupChatActivity">
 
-    <carbon.widget.LinearLayout
-        android:id="@+id/backContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:orientation="horizontal">
-
-        <carbon.widget.LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:background="#ffffff"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:padding="7dp"
-            app:carbon_cornerRadius="10dp"
-            app:carbon_elevation="12dp"
-            app:carbon_elevationShadowColor="@color/elevation"
-            app:carbon_rippleColor="@color/elevation">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_back" />
-
-        </carbon.widget.LinearLayout>
-
-    </carbon.widget.LinearLayout>
-
-    <TextView
-        android:id="@+id/gpName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_margin="20dp"
-        android:fontFamily="@font/vazir"
-        android:text="نام گروه"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
+    <include
+        android:id="@+id/chatBarContainer"
+        layout="@layout/custom_chat_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/inputContainer"
-        android:layout_below="@id/backContainer"
+        android:layout_below="@id/chatBarContainer"
         android:layout_margin="5dp"
         android:descendantFocusability="blocksDescendants"
         app:reverseLayout="true"

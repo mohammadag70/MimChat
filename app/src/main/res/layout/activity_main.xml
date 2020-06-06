@@ -109,6 +109,19 @@
                     app:bt_titlePadding="10dp"
                     app:bt_titleSize="12sp" />
 
+                <com.gauravk.bubblenavigation.BubbleToggleView
+                    android:id="@+id/requests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bt_active="true"
+                    app:bt_colorActive="@color/colorPrimary"
+                    app:bt_colorInactive="@color/colorPrimary"
+                    app:bt_icon="@drawable/ic_request"
+                    app:bt_shape="@drawable/transition_background_drawable_home"
+                    app:bt_title="درخواست ها     "
+                    app:bt_titlePadding="10dp"
+                    app:bt_titleSize="12sp" />
+
             </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
 
         </carbon.widget.LinearLayout>

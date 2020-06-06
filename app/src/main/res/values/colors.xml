@@ -10,5 +10,10 @@
 
     <color name="whiteTrans">#C4FFFFFF</color>
     <color name="hint">#B5ED6B6B</color>
+    <color name="input">#D3B2B2</color>
+    <color name="input2">#92B7BC</color>
+    <color name="red">#FF0000</color>
+
+    <color name="tint">#A0000000</color>
 
 </resources>

@@ -1,6 +1,5 @@
 package mag.ir.mimchat.Fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import mag.ir.mimchat.Adapters.GroupListAdapter;
 import mag.ir.mimchat.Models.Group;
 import mag.ir.mimchat.R;
-import mag.ir.mimchat.Utilities.Utils;
 
 public class GroupChatFragment extends Fragment {
 
@@ -33,6 +32,8 @@ public class GroupChatFragment extends Fragment {
     RecyclerView groupRecyclerView;
     @BindView(R.id.coolLay)
     RelativeLayout coolLay;
+    @BindView(R.id.loadingBar)
+    LottieAnimationView loadingBar;
 
     private static GroupListAdapter groupListAdapter;
     private List<Group> gpList = new ArrayList<>();
@@ -65,9 +66,6 @@ public class GroupChatFragment extends Fragment {
     }
 
     private void getGroupList() {
-        Dialog dialog = Utils.loading(getActivity());
-        dialog.show();
-
         groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -81,17 +79,17 @@ public class GroupChatFragment extends Fragment {
                     }
                     groupListAdapter.notifyDataSetChanged();
                     coolLay.setVisibility(View.INVISIBLE);
-                    dialog.dismiss();
+                    loadingBar.setVisibility(View.INVISIBLE);
                 } else {
-                    dialog.dismiss();
+                    loadingBar.setVisibility(View.INVISIBLE);
                     coolLay.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                dialog.dismiss();
-                coolLay.setVisibility(View.INVISIBLE);
+                loadingBar.setVisibility(View.INVISIBLE);
+                coolLay.setVisibility(View.VISIBLE);
             }
         });
     }
