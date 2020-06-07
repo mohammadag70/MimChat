@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import carbon.view.View;
@@ -48,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private String current_state = "";
     private String senderUserId = "";
 
-    private DatabaseReference userRef, chatRequestRef, contactsRef;
+    private DatabaseReference userRef, chatRequestRef, contactsRef, notificationRef;
     private FirebaseAuth auth;
 
     @Override
@@ -75,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
         chatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         contactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+        notificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
         senderUserId = auth.getCurrentUser().getUid();
 
         try {
@@ -286,9 +289,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                sendMessageButton.setEnabled(true);
-                                                current_state = "request_sent";
-                                                sendMessageButton.setText("لغو درخواست");
+                                                HashMap<String, String> chatNotification = new HashMap<>();
+                                                chatNotification.put("from", senderUserId);
+                                                chatNotification.put("type", "request");
+                                                notificationRef.child(receiverUserId).push().setValue(chatNotification).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            sendMessageButton.setEnabled(true);
+                                                            current_state = "request_sent";
+                                                            sendMessageButton.setText("لغو درخواست");
+                                                        }
+                                                    }
+                                                });
                                             }
                                         }
                                     });

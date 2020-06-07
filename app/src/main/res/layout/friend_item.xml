@@ -69,6 +69,12 @@
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/onlineOrOffline"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/offline" />
+
             </RelativeLayout>
 
         </carbon.widget.LinearLayout>

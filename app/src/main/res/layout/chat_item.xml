@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <carbon.widget.LinearLayout
-        android:id="@+id/navBottomContainer"
+        android:id="@+id/chatContainer"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -78,6 +78,98 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/message"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/vazir"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+
+        </carbon.widget.LinearLayout>
+
+    </carbon.widget.LinearLayout>
+
+    <carbon.widget.LinearLayout
+        android:id="@+id/imageContainer"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/imgrel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/input"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:carbon_cornerRadius="15dp"
+            app:carbon_elevation="8dp"
+            app:carbon_elevationShadowColor="@color/elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgimage"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/imgname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/imgimage"
+                    android:fontFamily="@font/vazir"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/imgdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/vazir"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_below="@id/imgimage"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/input"
+                    app:cardCornerRadius="10dp">
+
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/imgtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cv"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="7dp"

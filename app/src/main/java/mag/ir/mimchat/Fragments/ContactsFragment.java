@@ -46,6 +46,9 @@ public class ContactsFragment extends Fragment {
     public ContactsFragment() {
     }
 
+    public static ContactsFragment newInstance() {
+        return new ContactsFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +64,6 @@ public class ContactsFragment extends Fragment {
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         return view;
-    }
-
-    public static ContactsFragment newInstance() {
-        return new ContactsFragment();
     }
 
     @Override
@@ -92,6 +91,19 @@ public class ContactsFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
+
+                            if (dataSnapshot.child("userState").hasChild("state")) {
+                                String state = dataSnapshot.child("userState").child("state").getValue().toString();
+
+                                if (state.equals("آنلاین")) {
+                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.online));
+                                } else {
+                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                                }
+                            } else {
+                                holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                            }
+
                             if (dataSnapshot.hasChild("image")) {
                                 Picasso.get().load(dataSnapshot.child("image").getValue().toString()).into(holder.image);
                             }
@@ -135,6 +147,7 @@ public class ContactsFragment extends Fragment {
         TextView name, status;
         CircleImageView image;
         carbon.widget.LinearLayout rel;
+        View onlineOrOffline;
 
         public ContactsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -143,6 +156,7 @@ public class ContactsFragment extends Fragment {
             status = itemView.findViewById(R.id.userStatus);
             image = itemView.findViewById(R.id.userImage);
             rel = itemView.findViewById(R.id.rel);
+            onlineOrOffline = itemView.findViewById(R.id.onlineOrOffline);
         }
     }
 }

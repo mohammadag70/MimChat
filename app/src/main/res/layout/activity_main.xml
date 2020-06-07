@@ -71,7 +71,6 @@
                 app:bnc_mode="spread">
 
                 <com.gauravk.bubblenavigation.BubbleToggleView
-                    android:id="@+id/single"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bt_active="true"
@@ -84,7 +83,6 @@
                     app:bt_titleSize="12sp" />
 
                 <com.gauravk.bubblenavigation.BubbleToggleView
-                    android:id="@+id/group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bt_active="true"
@@ -97,7 +95,6 @@
                     app:bt_titleSize="12sp" />
 
                 <com.gauravk.bubblenavigation.BubbleToggleView
-                    android:id="@+id/contacts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bt_active="true"
@@ -110,7 +107,6 @@
                     app:bt_titleSize="12sp" />
 
                 <com.gauravk.bubblenavigation.BubbleToggleView
-                    android:id="@+id/requests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bt_active="true"

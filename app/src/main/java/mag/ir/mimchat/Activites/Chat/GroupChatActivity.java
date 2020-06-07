@@ -50,10 +50,9 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     RecyclerView chatRecyclerView;
     @BindView(R.id.loadingBar)
     LottieAnimationView loadingBar;
-
+    boolean isListenerAdded = false;
     private String gpName = "";
     private String currenUserId, currentUserName, dateOfMessage, timeOfMessage;
-
     private FirebaseAuth auth;
     private DatabaseReference userRef, groupNameRef, groupMessageKeyRef;
     private GroupChatListAdapter groupListAdapter;
@@ -163,7 +162,7 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
     protected void onStart() {
         super.onStart();
 
-        groupNameRef.addChildEventListener(new ChildEventListener() {
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists()) {
@@ -194,7 +193,12 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        if (!isListenerAdded) {
+            groupNameRef.addChildEventListener(childEventListener);
+            isListenerAdded = true;
+        }
     }
 
     @Override

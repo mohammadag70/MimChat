@@ -51,6 +51,9 @@ public class SingleChatFragment extends Fragment {
     public SingleChatFragment() {
     }
 
+    public static SingleChatFragment newInstance() {
+        return new SingleChatFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,10 +69,6 @@ public class SingleChatFragment extends Fragment {
         singleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
-    }
-
-    public static SingleChatFragment newInstance() {
-        return new SingleChatFragment();
     }
 
     @Override
@@ -100,19 +99,40 @@ public class SingleChatFragment extends Fragment {
                             if (dataSnapshot.hasChild("image")) {
                                 imgPath = dataSnapshot.child("image").getValue().toString();
                                 Picasso.get().load(imgPath).into(holder.profileImage);
+                            } else {
+                                imgPath = "default";
                             }
                             holder.userName.setText(dataSnapshot.child("name").getValue().toString());
-                            if (dataSnapshot.hasChild("status"))
-                                holder.userStatus.setText(dataSnapshot.child("status").getValue().toString());
-                            else
-                                holder.userStatus.setText("این مخاطب وضعیتی ندارد");
+
+                            if (dataSnapshot.child("userState").hasChild("state")) {
+                                String date = dataSnapshot.child("userState").child("date").getValue().toString();
+                                String time = dataSnapshot.child("userState").child("time").getValue().toString();
+                                String state = dataSnapshot.child("userState").child("state").getValue().toString();
+
+                                if (state.equals("آنلاین")) {
+                                    holder.userStatus.setText("آنلاین");
+                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.online));
+                                } else {
+                                    holder.userStatus.setText("آخرین بازدید در تاریخ " + date + " ساعت " + time);
+                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                                }
+                            } else {
+                                holder.userStatus.setText("آفلاین");
+                                holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                            }
 
                             holder.rel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Intent chatIntent = new Intent(getContext(), SingleChatActivity.class);
                                     chatIntent.putExtra("visit_user_id", userIds);
-                                    chatIntent.putExtra("visit_user_image", imgPath);
+                                    if (dataSnapshot.hasChild("image")) {
+                                        imgPath = dataSnapshot.child("image").getValue().toString();
+                                        chatIntent.putExtra("visit_user_image", imgPath);
+                                    } else {
+                                        imgPath = "default";
+                                        chatIntent.putExtra("visit_user_image", imgPath);
+                                    }
                                     chatIntent.putExtra("visit_user_name", dataSnapshot.child("name").getValue().toString());
                                     startActivity(chatIntent);
                                 }
@@ -152,6 +172,7 @@ public class SingleChatFragment extends Fragment {
         CircleImageView profileImage;
         TextView userStatus, userName;
         carbon.widget.LinearLayout rel;
+        View onlineOrOffline;
 
         public ChatsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -160,6 +181,7 @@ public class SingleChatFragment extends Fragment {
             userStatus = itemView.findViewById(R.id.userStatus);
             userName = itemView.findViewById(R.id.userName);
             rel = itemView.findViewById(R.id.rel);
+            onlineOrOffline = itemView.findViewById(R.id.onlineOrOffline);
         }
     }
 }

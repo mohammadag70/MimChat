@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import mag.ir.mimchat.R;
+
 import static maes.tech.intentanim.CustomIntent.customType;
 
 public class SplashActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
                 } finally {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
-                    customType(SplashActivity.this,"left-to-right");
+                    customType(SplashActivity.this, "left-to-right");
                     finish();
                 }
             }

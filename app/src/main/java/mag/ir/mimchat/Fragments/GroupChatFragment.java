@@ -28,19 +28,22 @@ import mag.ir.mimchat.R;
 
 public class GroupChatFragment extends Fragment {
 
+    private static GroupListAdapter groupListAdapter;
     @BindView(R.id.groupRecyclerView)
     RecyclerView groupRecyclerView;
     @BindView(R.id.coolLay)
     RelativeLayout coolLay;
     @BindView(R.id.loadingBar)
     LottieAnimationView loadingBar;
-
-    private static GroupListAdapter groupListAdapter;
     private List<Group> gpList = new ArrayList<>();
 
     private DatabaseReference groupRef;
 
     public GroupChatFragment() {
+    }
+
+    public static GroupChatFragment newInstance() {
+        return new GroupChatFragment();
     }
 
     @Override
@@ -94,11 +97,9 @@ public class GroupChatFragment extends Fragment {
         });
     }
 
-    public static GroupChatFragment newInstance() {
-        return new GroupChatFragment();
-    }
-
     public void notifyAdapter() {
         getGroupList();
     }
+
+
 }

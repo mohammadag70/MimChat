@@ -39,6 +39,8 @@ import mag.ir.mimchat.Utilities.Utils;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int galleryPick = 1;
+    private static final int wallPick = 2;
     @BindView(R.id.back)
     carbon.widget.LinearLayout back;
     @BindView(R.id.updateStatus)
@@ -57,14 +59,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     CircleImageView profileImage;
     @BindView(R.id.backgroundImageView)
     ImageView backgroundImageView;
-
     private String currentUserId;
     private FirebaseAuth auth;
     private DatabaseReference rootRef;
     private StorageReference profileImageRef, wallRef;
-
-    private static final int galleryPick = 1;
-    private static final int wallPick = 2;
     private String profileOrBackground = "";
 
     @Override

@@ -2,6 +2,8 @@ package mag.ir.mimchat.Application;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.squareup.picasso.Picasso;
+
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -18,5 +20,8 @@ public class MyApp extends MultiDexApplication {
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
+
+        Picasso.setSingletonInstance(new Picasso.Builder(this).build()); // Only needed if you are using Picasso
+
     }
 }

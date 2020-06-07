@@ -2,14 +2,13 @@ package mag.ir.mimchat.Models;
 
 public class Contact {
 
-    public Contact() {
-    }
-
     String name = "";
     String image = "";
     String status = "";
     String uid = "";
     String background = "";
+    public Contact() {
+    }
 
     public Contact(String name, String image, String status, String uid, String background) {
         this.name = name;

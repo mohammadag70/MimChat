@@ -9,22 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="20dp"
+        android:background="@drawable/rounded_edittext"
         android:cursorVisible="true"
         android:drawableLeft="@drawable/ic_group_chat_icon"
-        android:paddingLeft="20dp"
-        android:inputType=""
-        android:paddingRight="15dp"
-        android:background="@drawable/rounded_edittext"
         android:fontFamily="@font/vazir"
         android:gravity="right|center_vertical"
         android:hint="نام گرووه"
+        android:inputType=""
+        android:paddingLeft="20dp"
+        android:paddingRight="15dp"
         android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:weightSum="1">
 

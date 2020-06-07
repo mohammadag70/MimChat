@@ -15,6 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 
@@ -117,12 +118,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
                                 String currentUserId = auth.getCurrentUser().getUid();
 
                                 HashMap<String, String> hashMap = new HashMap<>();
                                 hashMap.put("uid", currentUserId);
                                 hashMap.put("name", nameV);
+                                hashMap.put("device_token", deviceToken);
 
                                 rootRef.child("Users").child(currentUserId).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

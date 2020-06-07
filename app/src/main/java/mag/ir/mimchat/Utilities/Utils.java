@@ -8,12 +8,15 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.InputType;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +55,14 @@ public class Utils {
                 .setText(msg)
                 .setTextTypeface(Typeface.createFromAsset(activity.getAssets(), "fonts/Vazir.ttf"))
                 .centerText().setDuration(Snacky.LENGTH_SHORT).error().show();
+    }
+
+    public static void showInfoMessage(Activity activity, String msg) {
+        Snacky.builder()
+                .setActivity(activity)
+                .setText(msg)
+                .setTextTypeface(Typeface.createFromAsset(activity.getAssets(), "fonts/Vazir.ttf"))
+                .centerText().setDuration(Snacky.LENGTH_SHORT).warning().show();
     }
 
     public static void sendToLoginActivity(Activity activity) {
@@ -193,6 +204,18 @@ public class Utils {
             }
         }
         return out;
+    }
+
+    public static void popUpImage(Context activity, String path) {
+        ImagePopup imagePopup = new ImagePopup(activity);
+        imagePopup.setWindowWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        imagePopup.setWindowHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        imagePopup.setBackgroundColor(activity.getResources().getColor(R.color.trans));  // Optional
+        imagePopup.setImageOnClickClose(true);
+        imagePopup.setHideCloseIcon(true);
+
+        imagePopup.initiatePopupWithPicasso(path);
+        imagePopup.viewPopup();
     }
 
 }

@@ -15,5 +15,8 @@
     <color name="red">#FF0000</color>
 
     <color name="tint">#A0000000</color>
+    <color name="offline">#A07C7C7C</color>
+    <color name="online">#2EDD3D</color>
+    <color name="trans">#00000000</color>
 
 </resources>

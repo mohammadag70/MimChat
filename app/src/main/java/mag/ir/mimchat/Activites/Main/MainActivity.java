@@ -42,6 +42,7 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,20 +63,46 @@ import static maes.tech.intentanim.CustomIntent.customType;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int TIME_INTERVAL = 2000;
     @BindView(R.id.bubbleNavigation)
     BubbleNavigationConstraintView bubbleNavigation;
     @BindView(R.id.navBar)
     carbon.widget.LinearLayout navbar;
-
     private FragmentManager fm;
     private FragmentTransaction fmt;
     private List<PowerMenuItem> list = new ArrayList<>();
     private PowerMenu powerMenu;
-
     private FirebaseAuth auth;
     private DatabaseReference rootRef;
     private Fragment currentFrag;
     private FirebaseUser currentUser;
+    private String currentUserId;
+    private long mBackPressed;
+    private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
+        @Override
+        public void onItemClick(int position, PowerMenuItem item) {
+            powerMenu.setSelectedPosition(position); // change selected item
+            powerMenu.dismiss();
+
+            switch (position) {
+                case 0:
+                    Intent intent = new Intent(MainActivity.this, FindFriendsActivity.class);
+                    customType(MainActivity.this, "left-to-right");
+                    startActivity(intent);
+                    break;
+                case 1:
+                    requestNewGroup();
+                    break;
+                case 2:
+                    Utils.sendToSettingsActivity(MainActivity.this);
+                    break;
+                case 3:
+                    auth.signOut();
+                    Utils.sendToLoginActivity(MainActivity.this);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         rootRef = FirebaseDatabase.getInstance().getReference();
-
-        fm = getSupportFragmentManager();
-        fmt = fm.beginTransaction();
-        fmt.replace(R.id.container, new SingleChatFragment());
-        fmt.addToBackStack(null);
-        fmt.commit();
 
         list.add(new PowerMenuItem("یافتن دوستان"));
         list.add(new PowerMenuItem("ساختن گروه"));
@@ -124,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fm.beginTransaction()
                                 .remove(currentFragment)
                                 .add(R.id.container, fragment)
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     case 1:
@@ -136,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fm.beginTransaction()
                                 .remove(currentFragment)
                                 .add(R.id.container, fragment)
-                                .addToBackStack(null)
                                 .commit();
                         currentFrag = fragment;
                         break;
@@ -149,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fm.beginTransaction()
                                 .remove(currentFragment)
                                 .add(R.id.container, fragment)
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     case 3:
@@ -161,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fm.beginTransaction()
                                 .remove(currentFragment)
                                 .add(R.id.container, fragment)
-                                .addToBackStack(null)
                                 .commit();
                         break;
                 }
@@ -219,32 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-    private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
-        @Override
-        public void onItemClick(int position, PowerMenuItem item) {
-            powerMenu.setSelectedPosition(position); // change selected item
-            powerMenu.dismiss();
-
-            switch (position) {
-                case 0:
-                    Intent intent = new Intent(MainActivity.this, FindFriendsActivity.class);
-                    customType(MainActivity.this, "left-to-right");
-                    startActivity(intent);
-                    break;
-                case 1:
-                    requestNewGroup();
-                    break;
-                case 2:
-                    Utils.sendToSettingsActivity(MainActivity.this);
-                    break;
-                case 3:
-                    auth.signOut();
-                    Utils.sendToLoginActivity(MainActivity.this);
-                    break;
-            }
-        }
-    };
 
     private void requestNewGroup() {
         final Dialog dialog = new Dialog(this);
@@ -332,7 +323,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (currentUser == null) {
             Utils.sendToLoginActivity(this);
+        } else {
+            fm = getSupportFragmentManager();
+            fmt = fm.beginTransaction();
+            fmt.replace(R.id.container, new SingleChatFragment());
+            fmt.commit();
+
+            updateUserStatus("آنلاین");
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (currentUser != null) {
+            updateUserStatus("آفلاین");
+        }
+    }
+
+    private void updateUserStatus(String state) {
+        String dateOfMessage, timeOfMessage;
+
+        SolarCalendar solarCalendar = new SolarCalendar();
+        dateOfMessage = solarCalendar.date + " " + Utils.getMonth(solarCalendar.month) + " " + solarCalendar.year;
+
+        Date date = new Date();
+        SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+        timeOfMessage = displayFormat.format(date);
+
+        HashMap<String, Object> onlineState = new HashMap<>();
+        onlineState.put("time", timeOfMessage);
+        onlineState.put("date", dateOfMessage);
+        onlineState.put("state", state);
+
+        currentUserId = auth.getCurrentUser().getUid();
+
+        rootRef.child("Users").child(currentUserId).child("userState").updateChildren(onlineState);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+
+            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                super.onBackPressed();
+                finishAffinity();
+                System.exit(0);
+                return;
+            } else {
+                Utils.showInfoMessage(MainActivity.this, "برای خروج دوباره دکمه بازگشت را فشار دهید");
+            }
+            mBackPressed = System.currentTimeMillis();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 }

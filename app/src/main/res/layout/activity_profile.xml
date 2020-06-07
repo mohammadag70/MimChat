@@ -8,11 +8,11 @@
     tools:context=".Activites.Main.ProfileActivity">
 
     <ImageView
-        android:scaleType="centerCrop"
-        android:tint="@color/tint"
         android:id="@+id/wallpaper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:tint="@color/tint" />
 
     <carbon.widget.LinearLayout
         android:id="@+id/backContainer"
@@ -51,10 +51,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
         android:fontFamily="@font/vazir"
-        android:textStyle="bold"
         android:text="حساب کاربری"
         android:textColor="@color/colorPrimary"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
@@ -73,9 +73,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/vazir"
-        android:textStyle="bold"
         android:textColor="@color/colorPrimary"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/status"
@@ -109,13 +109,13 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sendMessageButton"
-        android:visibility="invisible"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@color/red"
         android:fontFamily="@font/vazir"
         android:text="عدم قبول درخواست"
         android:textColor="@color/white"
+        android:visibility="invisible"
         app:carbon_cornerRadius="20dp"
         app:carbon_elevation="8dp"
         app:carbon_elevationShadowColor="@color/red"

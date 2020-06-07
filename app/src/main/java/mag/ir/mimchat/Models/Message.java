@@ -1,17 +1,22 @@
 package mag.ir.mimchat.Models;
 
 public class Message {
-    private String from, message, type, date, time;
+    private String from, message, type, date, time, to;
 
     public Message() {
     }
 
-    public Message(String from, String message, String type, String date, String time) {
+    public Message(String from, String to, String message, String type, String date, String time) {
         this.from = from;
         this.message = message;
         this.type = type;
         this.date = date;
         this.time = time;
+        this.to = to;
+    }
+
+    public String getTo() {
+        return to;
     }
 
     public String getFrom() {

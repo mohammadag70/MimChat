@@ -15,84 +15,111 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/inputContainer"
+        android:layout_above="@id/cont"
         android:layout_below="@id/chatBarContainer"
         android:layout_margin="5dp"
         android:descendantFocusability="blocksDescendants"
         app:reverseLayout="true"
         app:stackFromEnd="true" />
 
-    <carbon.widget.LinearLayout
-        android:id="@+id/inputContainer"
+    <RelativeLayout
+        android:id="@+id/cont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="20dp">
 
-        <carbon.widget.LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/input"
-            android:padding="3dp"
-            app:carbon_cornerRadius="10dp"
-            app:carbon_elevation="12dp"
-            app:carbon_elevationShadowColor="@color/elevation"
-            app:carbon_rippleColor="@color/elevation">
+        <RelativeLayout
+            android:id="@+id/attachFile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_attach_send"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
 
-            <RelativeLayout
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical">
+                android:layout_centerInParent="true"
+                android:padding="14dp"
+                app:srcCompat="@drawable/ic_attach" />
 
-                <EditText
-                    android:id="@+id/inputText"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@id/send"
-                    android:background="@null"
-                    android:cursorVisible="true"
-                    android:fontFamily="@font/vazir"
-                    android:gravity="right|center_vertical"
-                    android:hint="پیام را اینجا بنویسید"
-                    android:inputType="text"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="30dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/whiteTrans"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
+        </RelativeLayout>
+
+        <carbon.widget.LinearLayout
+            android:id="@+id/inputContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/attachFile"
+            android:orientation="horizontal">
+
+            <carbon.widget.LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/input"
+                android:padding="3dp"
+                app:carbon_cornerRadius="10dp"
+                app:carbon_elevation="12dp"
+                app:carbon_elevationShadowColor="@color/elevation"
+                app:carbon_rippleColor="@color/elevation">
 
                 <RelativeLayout
-                    android:id="@+id/send"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/button_back_send"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
 
-                    <ImageView
+                    <EditText
+                        android:id="@+id/inputText"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:padding="15dp"
-                        app:srcCompat="@drawable/ic_send" />
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/send"
+                        android:background="@null"
+                        android:cursorVisible="true"
+                        android:fontFamily="@font/vazir"
+                        android:gravity="right|center_vertical"
+                        android:hint="پیام را اینجا بنویسید"
+                        android:inputType="text"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="30dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/whiteTrans"
+                        android:textCursorDrawable="@null"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/send"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/button_back_send"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:padding="15dp"
+                            app:srcCompat="@drawable/ic_send" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
-            </RelativeLayout>
+            </carbon.widget.LinearLayout>
 
         </carbon.widget.LinearLayout>
 
-    </carbon.widget.LinearLayout>
+    </RelativeLayout>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loadingBar"
