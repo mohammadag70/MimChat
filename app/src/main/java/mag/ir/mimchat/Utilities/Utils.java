@@ -86,6 +86,14 @@ public class Utils {
         activity.finish();
     }
 
+    public static void sendToMainActivityWithExtra(Activity activity, String extra) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("extra", extra);
+        customType(activity, "left-to-right");
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
     public static void sendToRegisterActivity(Activity activity) {
         Intent intent = new Intent(activity, RegisterActivity.class);
         customType(activity, "left-to-right");
@@ -216,6 +224,16 @@ public class Utils {
 
         imagePopup.initiatePopupWithPicasso(path);
         imagePopup.viewPopup();
+    }
+
+    public static boolean isPersian(String str) {
+        Pattern RTL_CHARACTERS = Pattern.compile("[\u0600-\u06FF\u0750-\u077F\u0590-\u05FF\uFE70-\uFEFF]");
+        Matcher matcher = RTL_CHARACTERS.matcher(str);
+        if (matcher.find()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

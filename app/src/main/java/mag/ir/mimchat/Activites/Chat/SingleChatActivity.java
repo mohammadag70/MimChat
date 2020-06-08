@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,8 +34,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +92,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
     private String myUrl = "";
     private StorageTask uploadTask;
     private Uri fileUri;
+    private String fileName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +117,11 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
+
+        singleChatListAdapter = new SingleChatListAdapter(messageList, SingleChatActivity.this, loadingBar);
+        linearLayoutManager = new LinearLayoutManager(SingleChatActivity.this);
+        chatRecyclerView.setLayoutManager(linearLayoutManager);
+        chatRecyclerView.setAdapter(singleChatListAdapter);
 
     }
 
@@ -142,8 +153,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
     public void onClick(android.view.View view) {
         switch (view.getId()) {
             case R.id.back:
-                onBackPressed();
-                finish();
+                Utils.sendToMainActivityWithExtra(this, "s");
                 break;
 
             case R.id.send:
@@ -177,9 +187,19 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
                 }
                 if (i == 1) {
                     checker = "pdf";
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setType("application/pdf");
+                    startActivityForResult(intent.createChooser(intent, "فایل pdf رو انتخاب کن"), 438);
                 }
                 if (i == 2) {
                     checker = "docx";
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setType("application/msword");
+                    startActivityForResult(intent.createChooser(intent, "فایل word رو انتخاب کن"), 438);
                 }
             }
         });
@@ -236,14 +256,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        messageList.clear();
+        Utils.sendToMainActivityWithExtra(this, "s");
     }
 
     @Override
@@ -255,10 +268,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Message message = dataSnapshot.getValue(Message.class);
                 messageList.add(message);
-                singleChatListAdapter = new SingleChatListAdapter(messageList, SingleChatActivity.this, loadingBar);
-                linearLayoutManager = new LinearLayoutManager(SingleChatActivity.this);
-                chatRecyclerView.setLayoutManager(linearLayoutManager);
-                chatRecyclerView.setAdapter(singleChatListAdapter);
+                singleChatListAdapter.notifyDataSetChanged();
                 loadingBar.setVisibility(android.view.View.GONE);
 
                 chatRecyclerView.smoothScrollToPosition(chatRecyclerView.getAdapter().getItemCount());
@@ -304,7 +314,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
                     if (state.equals("آنلاین")) {
                         profileLastSeen.setText("آنلاین");
                     } else {
-                        profileLastSeen.setText("آخرین بازدید در تاریخ " + date + " ساعت " + time);
+                        profileLastSeen.setText("آخرین بازدید در تاریخ " + Utils.toPersianNumber(date) + " ساعت " + Utils.toPersianNumber(time));
                     }
                 } else {
                     profileLastSeen.setText("آفلاین");
@@ -327,8 +337,81 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
             dialog.show();
 
             fileUri = data.getData();
+            String uriString = fileUri.toString();
+            File myFile = new File(uriString);
+
+            if (uriString.startsWith("content://")) {
+                Cursor cursor = null;
+                try {
+                    cursor = getContentResolver().query(fileUri, null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } finally {
+                    cursor.close();
+                }
+            } else if (uriString.startsWith("file://")) {
+                fileName = myFile.getName();
+            }
 
             if (!checker.equals("image")) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Document Files");
+
+                SolarCalendar solarCalendar = new SolarCalendar();
+                dateOfMessage = solarCalendar.date + " " + Utils.getMonth(solarCalendar.month) + " " + solarCalendar.year;
+
+                Date date = new Date();
+                timeOfMessage = DateFormat.getTimeInstance().format(date);
+
+                final String messageSenderRef = "Messages/" + messageSenderId + "/" + messageReceiverId;
+                final String messageReceiverRef = "Messages/" + messageReceiverId + "/" + messageSenderId;
+
+                DatabaseReference userMessageKeyRef = rootRef.child("Messages").child(messageSenderId).child(messageReceiverId).push();
+                final String messagePushId = userMessageKeyRef.getKey();
+
+                StorageReference filePath = storageReference.child(messagePushId + checker);
+
+                filePath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Uri downloadUri = uri;
+                                String generatedFilePath = downloadUri.toString();
+
+                                Map messageTextBody = new HashMap();
+                                messageTextBody.put("message", generatedFilePath);
+                                messageTextBody.put("name", fileUri.getLastPathSegment());
+                                messageTextBody.put("type", checker);
+                                messageTextBody.put("from", messageSenderId);
+                                messageTextBody.put("to", messageReceiverId);
+                                messageTextBody.put("messageId", messagePushId);
+                                messageTextBody.put("date", dateOfMessage);
+                                messageTextBody.put("time", timeOfMessage);
+                                messageTextBody.put("fileName", fileName);
+
+                                Map messageBodyDetails = new HashMap();
+                                messageBodyDetails.put(messageSenderRef + "/" + messagePushId, messageTextBody);
+                                messageBodyDetails.put(messageReceiverRef + "/" + messagePushId, messageTextBody);
+
+                                rootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if (task.isSuccessful()) {
+                                            dialog.dismiss();
+                                        } else {
+                                            loadingBar.setVisibility(android.view.View.GONE);
+                                            Utils.showErrorMessage(SingleChatActivity.this, "مشکل از سرور");
+                                            dialog.dismiss();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
 
             } else if (checker.equals("image")) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Image Files");
@@ -366,7 +449,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
 
                             Map messageTextBody = new HashMap();
                             messageTextBody.put("message", myUrl);
-                            messageTextBody.put("name", fileUri.getPathSegments());
+                            messageTextBody.put("name", fileUri.getLastPathSegment());
                             messageTextBody.put("type", checker);
                             messageTextBody.put("from", messageSenderId);
                             messageTextBody.put("to", messageReceiverId);

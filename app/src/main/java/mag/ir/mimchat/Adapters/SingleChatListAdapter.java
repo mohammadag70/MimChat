@@ -1,6 +1,9 @@
 package mag.ir.mimchat.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.StrictMode;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -21,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,6 +72,7 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
         if (message.getType().equals("text")) {
             holder.chatContainer.setVisibility(View.VISIBLE);
             holder.imgContainer.setVisibility(View.GONE);
+            holder.pwContainer.setVisibility(View.GONE);
 
             holder.date.setText(Utils.toPersianNumber(message.getDate()));
             holder.time.setText(Utils.toPersianNumber(message.getTime()));
@@ -77,6 +84,8 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.hasChild("image")) {
                         Picasso.get().load(dataSnapshot.child("image").getValue().toString()).placeholder(R.drawable.profile).into(holder.image);
+                    } else {
+                        Picasso.get().load(R.drawable.profile).into(holder.image);
                     }
 
                     holder.name.setText(dataSnapshot.child("name").getValue().toString());
@@ -98,9 +107,17 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                 holder.root.setGravity(Gravity.LEFT);
                 holder.rel.setBackgroundColor(context.getResources().getColor(R.color.input2));
             }
+
+            if (Utils.isPersian(message.getMessage())) {
+                holder.message.setGravity(Gravity.RIGHT);
+            } else {
+                holder.message.setGravity(Gravity.LEFT);
+            }
+
         } else if (message.getType().equals("image")) {
             holder.chatContainer.setVisibility(View.GONE);
             holder.imgContainer.setVisibility(View.VISIBLE);
+            holder.pwContainer.setVisibility(View.GONE);
 
             holder.imgdate.setText(Utils.toPersianNumber(message.getDate()));
             holder.imgtime.setText(Utils.toPersianNumber(message.getTime()));
@@ -136,6 +153,78 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                 }
             });
 
+        } else {
+            holder.chatContainer.setVisibility(View.GONE);
+            holder.imgContainer.setVisibility(View.GONE);
+            holder.pwContainer.setVisibility(View.VISIBLE);
+
+            holder.pwdate.setText(Utils.toPersianNumber(message.getDate()));
+            holder.pwtime.setText(Utils.toPersianNumber(message.getTime()));
+
+            userRefl = FirebaseDatabase.getInstance().getReference().child("Users").child(message.getFrom());
+
+            userRefl.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.hasChild("image")) {
+                        Picasso.get().load(dataSnapshot.child("image").getValue().toString()).placeholder(R.drawable.profile).into(holder.pwimage);
+                    }
+
+                    holder.pwname.setText(dataSnapshot.child("name").getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            if (message.getType().equals("pdf")) {
+                holder.pdfOrWordCVImage.setImageResource(R.drawable.ic_pdf);
+            } else {
+                holder.pdfOrWordCVImage.setImageResource(R.drawable.ic_word);
+            }
+
+            if (message.getFrom().equals(currenUserId)) {
+                holder.root.setGravity(Gravity.RIGHT);
+            } else {
+                holder.root.setGravity(Gravity.LEFT);
+            }
+
+            holder.fileName.setText(message.getFileName());
+
+            holder.pdfOrWordCV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (message.getType().equals("pdf")) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Uri uri = Uri.parse(userMessageList.get(position).getMessage());
+                        intent.setDataAndType(uri, "application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        context.startActivity(intent);
+                    } else {
+                        try {
+                            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                            m.invoke(null);
+                        } catch (Exception ignored) {
+                        }
+
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                        File file = new File(userMessageList.get(position).getMessage());
+                        String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+                        String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                        if (extension.equalsIgnoreCase("") || mimetype == null) {
+                            // if there is no extension or there is no definite mimetype, still try to open the file
+                            intent.setDataAndType(Uri.fromFile(file), "text/*");
+                        } else {
+                            intent.setDataAndType(Uri.fromFile(file), mimetype);
+                        }
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
@@ -146,12 +235,13 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, time, date, message, imgname, imgtime, imgdate;
-        carbon.widget.LinearLayout rel, imgrel;
-        CircleImageView image, imgimage;
+        TextView name, time, date, message, imgname, imgtime, imgdate, pwname, pwtime, pwdate, fileName;
+        carbon.widget.LinearLayout rel;
+        CircleImageView image, imgimage, pwimage;
         RelativeLayout root;
-        ImageView photo;
-        carbon.widget.LinearLayout imgContainer, chatContainer;
+        ImageView photo, pdfOrWordCVImage;
+        carbon.widget.LinearLayout imgContainer, chatContainer, pwContainer;
+        CardView pdfOrWordCV, photocv;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -164,13 +254,22 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
             root = itemView.findViewById(R.id.root);
 
             photo = itemView.findViewById(R.id.photo);
+            photocv = itemView.findViewById(R.id.photocv);
             imgContainer = itemView.findViewById(R.id.imageContainer);
             chatContainer = itemView.findViewById(R.id.chatContainer);
             imgdate = itemView.findViewById(R.id.imgdate);
             imgtime = itemView.findViewById(R.id.imgtime);
             imgname = itemView.findViewById(R.id.imgname);
-            imgrel = itemView.findViewById(R.id.imgrel);
             imgimage = itemView.findViewById(R.id.imgimage);
+
+            pdfOrWordCV = itemView.findViewById(R.id.pdfOrWordCV);
+            pdfOrWordCVImage = itemView.findViewById(R.id.pdfOrWordCVImage);
+            pwname = itemView.findViewById(R.id.pwname);
+            pwimage = itemView.findViewById(R.id.pwimage);
+            pwtime = itemView.findViewById(R.id.pwtime);
+            pwdate = itemView.findViewById(R.id.pwdate);
+            fileName = itemView.findViewById(R.id.fileName);
+            pwContainer = itemView.findViewById(R.id.pwContainer);
         }
     }
 

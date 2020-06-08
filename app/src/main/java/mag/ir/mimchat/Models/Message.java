@@ -1,9 +1,13 @@
 package mag.ir.mimchat.Models;
 
 public class Message {
-    private String from, message, type, date, time, to;
+    private String from, message, type, date, time, to, fileName;
 
     public Message() {
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public Message(String from, String to, String message, String type, String date, String time) {

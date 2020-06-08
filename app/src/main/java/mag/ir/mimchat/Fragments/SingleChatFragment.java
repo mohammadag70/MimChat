@@ -1,6 +1,7 @@
 package mag.ir.mimchat.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import mag.ir.mimchat.Activites.Chat.SingleChatActivity;
+import mag.ir.mimchat.Activites.Main.MainActivity;
 import mag.ir.mimchat.Models.Contact;
 import mag.ir.mimchat.R;
+import mag.ir.mimchat.Utilities.Utils;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,10 +116,10 @@ public class SingleChatFragment extends Fragment {
 
                                 if (state.equals("آنلاین")) {
                                     holder.userStatus.setText("آنلاین");
-                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.online));
+                                    holder.onlineOrOffline.setBackgroundColor(Color.parseColor("#2EDD3D"));
                                 } else {
-                                    holder.userStatus.setText("آخرین بازدید در تاریخ " + date + " ساعت " + time);
-                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                                    holder.userStatus.setText("آخرین بازدید در تاریخ " + Utils.toPersianNumber(date) + " ساعت " + Utils.toPersianNumber(time));
+                                    holder.onlineOrOffline.setBackgroundColor(Color.parseColor("#A07C7C7C"));
                                 }
                             } else {
                                 holder.userStatus.setText("آفلاین");
@@ -135,6 +140,8 @@ public class SingleChatFragment extends Fragment {
                                     }
                                     chatIntent.putExtra("visit_user_name", dataSnapshot.child("name").getValue().toString());
                                     startActivity(chatIntent);
+                                    MainActivity.gotoChat = true;
+                                    customType(getActivity(), "left-to-right");
                                 }
                             });
 

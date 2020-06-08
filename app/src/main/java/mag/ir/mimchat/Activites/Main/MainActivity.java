@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BubbleNavigationConstraintView bubbleNavigation;
     @BindView(R.id.navBar)
     carbon.widget.LinearLayout navbar;
+
     private FragmentManager fm;
     private FragmentTransaction fmt;
     private List<PowerMenuItem> list = new ArrayList<>();
@@ -78,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseUser currentUser;
     private String currentUserId;
     private long mBackPressed;
+
+    public static boolean gotoChat = false;
+
     private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
         @Override
         public void onItemClick(int position, PowerMenuItem item) {
@@ -321,15 +325,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
+        gotoChat = false;
         if (currentUser == null) {
             Utils.sendToLoginActivity(this);
         } else {
-            fm = getSupportFragmentManager();
-            fmt = fm.beginTransaction();
-            fmt.replace(R.id.container, new SingleChatFragment());
-            fmt.commit();
+
+            try {
+
+                String extra = getIntent().getExtras().get("extra").toString();
+
+                if (extra.equals("g")) {
+                    fm = getSupportFragmentManager();
+                    fmt = fm.beginTransaction();
+                    fmt.replace(R.id.container, new GroupChatFragment());
+                    fmt.commit();
+                    bubbleNavigation.setCurrentActiveItem(1);
+                } else {
+                    fm = getSupportFragmentManager();
+                    fmt = fm.beginTransaction();
+                    fmt.replace(R.id.container, new SingleChatFragment());
+                    fmt.commit();
+                    bubbleNavigation.setCurrentActiveItem(0);
+                }
+
+            } catch (Exception ignored) {
+                fm = getSupportFragmentManager();
+                fmt = fm.beginTransaction();
+                fmt.replace(R.id.container, new SingleChatFragment());
+                fmt.commit();
+                bubbleNavigation.setCurrentActiveItem(0);
+            }
 
             updateUserStatus("آنلاین");
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (!gotoChat) {
+            if (currentUser != null) {
+                updateUserStatus("آفلاین");
+            }
         }
     }
 

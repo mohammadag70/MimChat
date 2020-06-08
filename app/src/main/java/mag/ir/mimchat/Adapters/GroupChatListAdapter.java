@@ -60,6 +60,12 @@ public class GroupChatListAdapter extends RecyclerView.Adapter<GroupChatListAdap
             holder.rel.setBackgroundColor(context.getResources().getColor(R.color.input2));
         }
 
+        if (Utils.isPersian(chat.getMessage())) {
+            holder.message.setGravity(Gravity.RIGHT);
+        } else {
+            holder.message.setGravity(Gravity.LEFT);
+        }
+
     }
 
     @Override

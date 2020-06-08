@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import mag.ir.mimchat.Activites.Chat.GroupChatActivity;
+import mag.ir.mimchat.Activites.Main.MainActivity;
 import mag.ir.mimchat.Models.Group;
 import mag.ir.mimchat.R;
 import mag.ir.mimchat.Utilities.Utils;
@@ -51,6 +52,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
                 Intent intent = new Intent(context, GroupChatActivity.class);
                 intent.putExtra("gpName", group.getName());
                 context.startActivity(intent);
+                MainActivity.gotoChat = true;
                 customType(context, "left-to-right");
             }
         });

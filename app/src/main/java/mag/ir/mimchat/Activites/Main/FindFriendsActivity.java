@@ -106,7 +106,7 @@ public class FindFriendsActivity extends AppCompatActivity implements View.OnCli
             @NonNull
             @Override
             public FindFriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.find_friend_item, parent, false);
                 FindFriendViewHolder holder = new FindFriendViewHolder(view);
                 return holder;
             }

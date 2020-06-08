@@ -110,16 +110,14 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        Utils.sendToMainActivityWithExtra(this, "g");
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                onBackPressed();
-                finish();
+                Utils.sendToMainActivityWithExtra(this, "g");
                 break;
 
             case R.id.send:
@@ -199,12 +197,6 @@ public class GroupChatActivity extends AppCompatActivity implements View.OnClick
             groupNameRef.addChildEventListener(childEventListener);
             isListenerAdded = true;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        chatList.clear();
     }
 
     private void displayMessages(DataSnapshot dataSnapshot) {
