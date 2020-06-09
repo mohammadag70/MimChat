@@ -1,7 +1,7 @@
 package mag.ir.mimchat.Models;
 
 public class Message {
-    private String from, message, type, date, time, to, fileName;
+    private String from, message, type, date, time, to, fileName, messageId;
 
     public Message() {
     }
@@ -10,13 +10,19 @@ public class Message {
         return fileName;
     }
 
-    public Message(String from, String to, String message, String type, String date, String time) {
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public Message(String from, String to, String message, String type, String date, String time, String fileName, String messageId) {
         this.from = from;
         this.message = message;
         this.type = type;
         this.date = date;
         this.time = time;
         this.to = to;
+        this.fileName = fileName;
+        this.messageId = messageId;
     }
 
     public String getTo() {

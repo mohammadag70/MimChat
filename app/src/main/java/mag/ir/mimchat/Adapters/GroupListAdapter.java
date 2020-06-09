@@ -52,7 +52,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.MyVi
                 Intent intent = new Intent(context, GroupChatActivity.class);
                 intent.putExtra("gpName", group.getName());
                 context.startActivity(intent);
-                MainActivity.gotoChat = true;
+                MainActivity.gotoAnotherPage = true;
                 customType(context, "left-to-right");
             }
         });

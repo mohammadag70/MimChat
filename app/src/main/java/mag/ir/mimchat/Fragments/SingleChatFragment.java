@@ -140,7 +140,7 @@ public class SingleChatFragment extends Fragment {
                                     }
                                     chatIntent.putExtra("visit_user_name", dataSnapshot.child("name").getValue().toString());
                                     startActivity(chatIntent);
-                                    MainActivity.gotoChat = true;
+                                    MainActivity.gotoAnotherPage = true;
                                     customType(getActivity(), "left-to-right");
                                 }
                             });

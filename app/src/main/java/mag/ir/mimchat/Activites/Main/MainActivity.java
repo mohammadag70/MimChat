@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String currentUserId;
     private long mBackPressed;
 
-    public static boolean gotoChat = false;
+    public static boolean gotoAnotherPage = false;
 
     private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
         @Override
@@ -92,15 +92,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case 0:
                     Intent intent = new Intent(MainActivity.this, FindFriendsActivity.class);
                     customType(MainActivity.this, "left-to-right");
+                    MainActivity.gotoAnotherPage = true;
                     startActivity(intent);
                     break;
                 case 1:
                     requestNewGroup();
                     break;
                 case 2:
+                    MainActivity.gotoAnotherPage = true;
                     Utils.sendToSettingsActivity(MainActivity.this);
                     break;
                 case 3:
+                    if (currentUser != null) {
+                        updateUserStatus("آفلاین");
+                    }
+                    gotoAnotherPage = true;
                     auth.signOut();
                     Utils.sendToLoginActivity(MainActivity.this);
                     break;
@@ -325,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        gotoChat = false;
+        gotoAnotherPage = false;
         if (currentUser == null) {
             Utils.sendToLoginActivity(this);
         } else {
@@ -364,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
 
-        if (!gotoChat) {
+        if (!gotoAnotherPage) {
             if (currentUser != null) {
                 updateUserStatus("آفلاین");
             }
@@ -375,8 +381,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
 
-        if (currentUser != null) {
-            updateUserStatus("آفلاین");
+        if (!gotoAnotherPage) {
+            if (currentUser != null) {
+                updateUserStatus("آفلاین");
+            }
         }
     }
 

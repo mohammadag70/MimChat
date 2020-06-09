@@ -58,7 +58,7 @@ import mag.ir.mimchat.Utilities.Utils;
 
 public class SingleChatActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final List<Message> messageList = new ArrayList<>();
+    static final List<Message> messageList = new ArrayList<>();
     @BindView(R.id.profileImage)
     CircleImageView profileImage;
     @BindView(R.id.profileName)
@@ -71,34 +71,36 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
     EditText inputText;
     @BindView(R.id.back)
     carbon.widget.LinearLayout back;
-    @BindView(R.id.chatRecyclerView)
-    RecyclerView chatRecyclerView;
     @BindView(R.id.loadingBar)
     LottieAnimationView loadingBar;
     @BindView(R.id.attachFile)
     RelativeLayout attachFile;
-    boolean isListenerAdded = false;
-    private String messageSenderId = "";
-    private String messageReceiverId = "";
+    static boolean isListenerAdded = false;
+    static String messageSenderId = "";
+    static String messageReceiverId = "";
     private String messageReceiverName = "";
     private String messageReceiverImage = "";
     private String timeOfMessage = "";
     private String dateOfMessage = "";
     private FirebaseAuth auth;
-    private DatabaseReference rootRef;
-    private SingleChatListAdapter singleChatListAdapter;
+    static DatabaseReference rootRef;
+    private static SingleChatListAdapter singleChatListAdapter;
     private LinearLayoutManager linearLayoutManager;
     private String checker = "";
     private String myUrl = "";
     private StorageTask uploadTask;
     private Uri fileUri;
     private String fileName = "";
+    static ChildEventListener childEventListener;
+
+    private static RecyclerView chatRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_chat);
         ButterKnife.bind(this);
+        chatRecyclerView = findViewById(R.id.chatRecyclerView);
 
         init();
 
@@ -108,6 +110,9 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
+                    loadingBar.setVisibility(android.view.View.GONE);
+                } else {
+                    singleChatListAdapter.notifyDataSetChanged();
                     loadingBar.setVisibility(android.view.View.GONE);
                 }
             }
@@ -263,7 +268,7 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
     protected void onStart() {
         super.onStart();
 
-        ChildEventListener childEventListener = new ChildEventListener() {
+        childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Message message = dataSnapshot.getValue(Message.class);
@@ -489,5 +494,9 @@ public class SingleChatActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
+    public static void updateList() {
+        singleChatListAdapter.notifyDataSetChanged();
     }
 }

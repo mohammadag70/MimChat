@@ -76,7 +76,6 @@ public class Utils {
         Intent intent = new Intent(activity, SettingsActivity.class);
         customType(activity, "left-to-right");
         activity.startActivity(intent);
-        activity.finish();
     }
 
     public static void sendToMainActivity(Activity activity) {

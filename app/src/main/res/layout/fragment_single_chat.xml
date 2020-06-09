@@ -12,7 +12,7 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/vazir"
         android:gravity="center"
-        android:text="لیست افرای که میتونی باهاشون چت کنی"
+        android:text="لیست افرادی که میتونی باهاشون چت کنی"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 

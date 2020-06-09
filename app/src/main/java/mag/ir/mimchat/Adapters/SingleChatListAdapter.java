@@ -1,6 +1,8 @@
 package mag.ir.mimchat.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.StrictMode;
@@ -17,6 +19,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +34,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import mag.ir.mimchat.Activites.Chat.SingleChatActivity;
 import mag.ir.mimchat.Models.Message;
 import mag.ir.mimchat.R;
 import mag.ir.mimchat.Utilities.Utils;
@@ -114,6 +119,17 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                 holder.message.setGravity(Gravity.LEFT);
             }
 
+            holder.rel.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (message.getFrom().equals(currenUserId)) {
+                        showDialog(position);
+                    }
+                    return false;
+                }
+            });
+
+
         } else if (message.getType().equals("image")) {
             holder.chatContainer.setVisibility(View.GONE);
             holder.imgContainer.setVisibility(View.VISIBLE);
@@ -152,6 +168,17 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                     Utils.popUpImage(context, message.getMessage());
                 }
             });
+
+            holder.imgrel.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (message.getFrom().equals(currenUserId)) {
+                        showDialog(position);
+                    }
+                    return false;
+                }
+            });
+
 
         } else {
             holder.chatContainer.setVisibility(View.GONE);
@@ -193,7 +220,17 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
 
             holder.fileName.setText(message.getFileName());
 
-            holder.pdfOrWordCV.setOnClickListener(new View.OnClickListener() {
+            holder.pwrel.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (message.getFrom().equals(currenUserId)) {
+                        showDialog(position);
+                    }
+                    return false;
+                }
+            });
+
+            holder.pwrel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -226,6 +263,27 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
                 }
             });
         }
+
+    }
+
+    private void showDialog(int position) {
+        CharSequence options[] = new CharSequence[]{
+                "پاک کردن", "لغو"
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("انتخاب کن!");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == 0) {
+                    deleteSentMessage(position);
+                }
+                if (i == 1) {
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -236,7 +294,7 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, time, date, message, imgname, imgtime, imgdate, pwname, pwtime, pwdate, fileName;
-        carbon.widget.LinearLayout rel;
+        carbon.widget.LinearLayout rel, pwrel, imgrel;
         CircleImageView image, imgimage, pwimage;
         RelativeLayout root;
         ImageView photo, pdfOrWordCVImage;
@@ -261,6 +319,7 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
             imgtime = itemView.findViewById(R.id.imgtime);
             imgname = itemView.findViewById(R.id.imgname);
             imgimage = itemView.findViewById(R.id.imgimage);
+            imgrel = itemView.findViewById(R.id.imgrel);
 
             pdfOrWordCV = itemView.findViewById(R.id.pdfOrWordCV);
             pdfOrWordCVImage = itemView.findViewById(R.id.pdfOrWordCVImage);
@@ -270,7 +329,30 @@ public class SingleChatListAdapter extends RecyclerView.Adapter<SingleChatListAd
             pwdate = itemView.findViewById(R.id.pwdate);
             fileName = itemView.findViewById(R.id.fileName);
             pwContainer = itemView.findViewById(R.id.pwContainer);
+            pwrel = itemView.findViewById(R.id.pwrel);
         }
+    }
+
+    private void deleteSentMessage(final int position) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.child("Messages")
+                .child(userMessageList.get(position).getFrom())
+                .child(userMessageList.get(position).getTo())
+                .child(userMessageList.get(position).getMessageId())
+                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Utils.showSuccessMessage(((SingleChatActivity) context), "پیام حذف شد");
+
+                    userMessageList.remove(position);
+                    SingleChatActivity.updateList();
+
+                } else {
+                    Utils.showErrorMessage(((SingleChatActivity) context), "خطا در حذف پیام");
+                }
+            }
+        });
     }
 
 }

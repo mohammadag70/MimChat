@@ -1,5 +1,6 @@
 package mag.ir.mimchat.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,12 +97,12 @@ public class ContactsFragment extends Fragment {
                                 String state = dataSnapshot.child("userState").child("state").getValue().toString();
 
                                 if (state.equals("آنلاین")) {
-                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.online));
+                                    holder.onlineOrOffline.setBackgroundColor(Color.parseColor("#2EDD3D"));
                                 } else {
-                                    holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                                    holder.onlineOrOffline.setBackgroundColor(Color.parseColor("#A07C7C7C"));
                                 }
                             } else {
-                                holder.onlineOrOffline.setBackgroundColor(getActivity().getResources().getColor(R.color.offline));
+                                holder.onlineOrOffline.setBackgroundColor(Color.parseColor("#A07C7C7C"));
                             }
 
                             if (dataSnapshot.hasChild("image")) {

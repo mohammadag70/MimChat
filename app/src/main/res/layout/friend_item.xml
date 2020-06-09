@@ -63,7 +63,7 @@
                         android:fontFamily="@font/vazir"
                         android:gravity="right"
                         android:padding="2dp"
-                        android:text="وضعیت شما"
+                        android:text="بدون وضعیت"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 
